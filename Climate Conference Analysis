@@ -311,3 +311,66 @@ COUNT (vips.member_ID) AS Number_of_VIPs,
 vips.association
 FROM vips
 GROUP BY vips.association;
+
+
+-- 15. List all VIPs and their associated hotel reservations, including VIPs who may not have made a reservation.
+
+SELECT 
+vips.member_id,
+vips.last_name,
+vips.first_name,
+reservations.hotel
+FROM vips
+LEFT JOIN reservations
+ON vips.member_id = reservations.member_id;
+
+
+-- 16. Find the names of VIPs who have RSVP’d for the welcome event.
+
+SELECT
+vips.last_name,
+vips.first_name,
+reservations.welcome_rsvp
+FROM vips
+INNER JOIN reservations
+ON vips.member_id = reservations.member_id
+WHERE reservations.welcome_rsvp = 1
+ORDER BY vips.last_name;
+
+
+-- 17. Retrieve event names, attendee names, and their hotel names.
+
+SELECT 
+events.event_name,
+vips.last_name,
+vips.first_name,
+hotels.hotel_name
+FROM events
+LEFT JOIN vips
+ON events.event_id = vips.event
+LEFT JOIN reservations
+ON reservations.member_id = vips.member_id
+LEFT JOIN hotels
+ON hotels.hotel_id = reservations.hotel;
+
+-- 18. Find VIPs staying at the hotel with the most reservations.
+
+SELECT
+vips.last_name,
+vips.first_name,
+hotels.hotel_name
+FROM vips
+LEFT JOIN reservations
+ON vips.member_id = reservations.member_id
+LEFT JOIN hotels
+ON hotels.hotel_id = reservations.hotel
+WHERE hotels.hotel_id = (
+SELECT
+reservations.hotel
+FROM reservations
+GROUP BY reservations.hotel
+ORDER BY COUNT (reservations.hotel) DESC
+LIMIT 1);
+
+-- 19. Get a list of all government-affiliated VIPs who have RSVP’d for dinner.
+-- 20. Find the number of VIPs attending each event, ordered by event attendance.
