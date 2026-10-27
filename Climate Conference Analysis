@@ -376,4 +376,28 @@ ORDER BY COUNT (reservations.hotel) DESC
 LIMIT 1);
 
 -- 19. Get a list of all government-affiliated VIPs who have RSVP’d for dinner.
+
+SELECT 
+vips.last_name,
+vips.first_name,
+vips.association,
+reservations.dinner_rsvp
+FROM vips
+LEFT JOIN reservations
+ON vips.member_id = reservations.member_id
+WHERE vips.assoc_type = "government" 
+AND reservations.dinner_rsvp = 1;
+
+
+
 -- 20. Find the number of VIPs attending each event, ordered by event attendance.
+
+SELECT 
+events.event_id,
+events.event_name,
+COUNT (vips.member_id) AS attendance
+FROM vips
+RIGHT JOIN events
+ON events.event_id = vips.event
+GROUP BY events.event_id 
+ORDER BY attendance DESC;
