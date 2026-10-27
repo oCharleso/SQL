@@ -1,4 +1,7 @@
-  CREATE TABLE vips (
+Climate Conference Project
+Database: https://www.db-fiddle.com/f/pxMci1sLL945KHKYvpe9W6/1
+
+CREATE TABLE vips (
      member_id INTEGER PRIMARY KEY
    , last_name TEXT
    , first_name TEXT
