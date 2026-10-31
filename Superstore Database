@@ -1,3 +1,6 @@
+Superstore Database Project
+https://www.db-fiddle.com/f/PvBAaQwEUSWAxZCsg4Vmx/243
+
 CREATE TABLE superstore (
     item_id INTEGER PRIMARY KEY,
     item_name TEXT,
