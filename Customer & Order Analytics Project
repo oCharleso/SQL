@@ -1,3 +1,5 @@
+#In this SQL, I'm querying a database with multiple tables in it to quantify statistics about customer and order data. 
+
 -- How many many unique orders were placed in January? In other words, how many distinct order ids do we have?
 
 SELECT 
