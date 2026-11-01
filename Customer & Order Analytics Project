@@ -1,0 +1,78 @@
+--How many many unique orders were placed in January? In other words, how many distinct order ids do we have?
+
+SELECT 
+COUNT (DISTINCT JanSales.orderID) AS janOrders
+FROM BIT_DB.JanSales
+WHERE LENGTH (JanSales.orderID) = 6
+AND JanSales.orderID != 'OrderID';
+
+--How many of those orders were for an iPhone?
+
+SELECT 
+COUNT (DISTINCT JanSales.orderID) AS iPhone_janOrders
+FROM BIT_DB.JanSales
+WHERE LENGTH (JanSales.orderID) = 6
+AND JanSales.orderID != 'OrderID'
+AND JanSales.Product = 'iPhone';
+
+--Select the customer account numbers for all the orders that were placed in February.
+
+SELECT
+DISTINCT customers.acctnum
+FROM BIT_DB.customers
+RIGHT JOIN BIT_DB.FebSales
+ON customers.order_id = FebSales.orderID
+WHERE LENGTH (FebSales.orderID) = 6
+AND FebSales.orderID != 'orderID';
+
+-- Which product was the cheapest one sold in January, and what was the price?
+
+SELECT 
+JanSales.price,
+JanSales.Product
+FROM BIT_DB.JanSales
+GROUP BY JanSales.Product,Jansales.price
+ORDER BY JanSales.price ASC
+LIMIT 1;
+
+--OR
+SELECT 
+DISTINCT JanSales.Product,
+Jansales.price
+FROM BIT_DB.JanSales
+WHERE Jansales.price =(
+SELECT 
+MIN(JanSales.price)
+FROM BIT_DB.JanSales);
+
+-- What is the total revenue for each product sold in January? (Revenue can be calculated using the number of products sold and the price of the products).
+
+SELECT 
+JanSales.Product,
+JanSales.price,
+SUM(JanSales.Quantity),
+JanSales.price*SUM(JanSales.Quantity) AS revenue
+FROM BIT_DB.JanSales
+GROUP BY JanSales.Product;
+
+--Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
+
+SELECT 
+SUM (Febsales.Quantity),
+Febsales.price,
+SUM(FebSales.Quantity)*Febsales.price AS revenue 
+FROM BIT_DB.FebSales
+WHERE FebSales.location = '548 Lincoln St, Seattle, WA 98101'
+GROUP BY FebSales.Product;
+
+--How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?
+
+SELECT
+COUNT(customers.acctnum) AS numberOfCustomers,
+AVG(FebSales.price*FebSales.Quantity) AS averageTotalAmountSpent
+FROM BIT_DB.FebSales
+INNER JOIN BIT_DB.customers
+ON customers.order_id = FebSales.orderID
+WHERE Febsales.Quantity > 2
+AND LENGTH (FebSales.orderID) = 6
+AND FebSales.orderID != 'OrderID';
