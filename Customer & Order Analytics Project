@@ -1,4 +1,4 @@
---How many many unique orders were placed in January? In other words, how many distinct order ids do we have?
+-- How many many unique orders were placed in January? In other words, how many distinct order ids do we have?
 
 SELECT 
 COUNT (DISTINCT JanSales.orderID) AS janOrders
@@ -6,7 +6,7 @@ FROM BIT_DB.JanSales
 WHERE LENGTH (JanSales.orderID) = 6
 AND JanSales.orderID != 'OrderID';
 
---How many of those orders were for an iPhone?
+-- How many of those orders were for an iPhone?
 
 SELECT 
 COUNT (DISTINCT JanSales.orderID) AS iPhone_janOrders
@@ -15,7 +15,7 @@ WHERE LENGTH (JanSales.orderID) = 6
 AND JanSales.orderID != 'OrderID'
 AND JanSales.Product = 'iPhone';
 
---Select the customer account numbers for all the orders that were placed in February.
+-- Select the customer account numbers for all the orders that were placed in February.
 
 SELECT
 DISTINCT customers.acctnum
@@ -35,7 +35,7 @@ GROUP BY JanSales.Product,Jansales.price
 ORDER BY JanSales.price ASC
 LIMIT 1;
 
---OR
+-- OR
 SELECT 
 DISTINCT JanSales.Product,
 Jansales.price
@@ -55,7 +55,7 @@ JanSales.price*SUM(JanSales.Quantity) AS revenue
 FROM BIT_DB.JanSales
 GROUP BY JanSales.Product;
 
---Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
+-- Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
 
 SELECT 
 SUM (Febsales.Quantity),
@@ -65,7 +65,7 @@ FROM BIT_DB.FebSales
 WHERE FebSales.location = '548 Lincoln St, Seattle, WA 98101'
 GROUP BY FebSales.Product;
 
---How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?
+-- How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?
 
 SELECT
 COUNT(customers.acctnum) AS numberOfCustomers,
