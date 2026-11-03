@@ -78,3 +78,16 @@ ON customers.order_id = FebSales.orderID
 WHERE Febsales.Quantity > 2
 AND LENGTH (FebSales.orderID) = 6
 AND FebSales.orderID != 'OrderID';
+
+-- How many of each type of headphone were sold in February?
+
+SELECT 
+FebSales.Product,
+SUM (FebSales.Quantity)
+FROM BIT_DB.FebSales
+WHERE FebSales.Product LIKE '%headphone%'
+AND length(orderid) = 6
+AND orderid != 'Order ID'
+GROUP BY FebSales.Product;
+
+
