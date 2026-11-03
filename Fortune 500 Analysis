@@ -60,28 +60,32 @@ VALUES
     ('Company KK', 'Healthcare', 150.2, 3400, 0, 16, 8, 5.3);
 
 
--- Which companies have healthcare benefits AND at least 20 paid time off days? Filtering using WHERE with AND
+-- Which companies have healthcare benefits AND at least 20 paid time off days? Filtering using WHERE with AND.
+
 SELECT company_name, paid_time_off_days
 FROM fortune_companies
 WHERE healthcare_benefits = 1
 AND paid_time_off_days >= 20
 ORDER BY paid_time_off_days DESC;
 
--- Which technology, finance, or healthcare companies do NOT offer at least 12 weeks of maternity leave? Filtering using WHERE with IN and AND
+-- Which technology, finance, or healthcare companies do NOT offer at least 12 weeks of maternity leave? Filtering using WHERE with IN and AND.
+
 SELECT company_name, industry, maternity_leave_weeks
 FROM fortune_companies
 WHERE industry IN ("Technology", "Healthcare", "Finance")
 AND maternity_leave_weeks < 12;
 
 
--- How much revenue does each company generate per employee, and which companies are the most efficient? Calculation with an alias (The most efficient companies will be at the top of this query)
+-- How much revenue does each company generate per employee, and which companies are the most efficient? Calculation with an alias (The most efficient companies will be at the top of this query).
+
 SELECT company_name, revenue, employees,
 ROUND (revenue/employees, 2) AS revenue_per_employee
 FROM fortune_companies
 ORDER BY revenue_per_employee DESC;
 
 
--- How can we group companies into employee-retention tiers based on average tenure? Categorizing with CASE
+-- How can we group companies into employee-retention tiers based on average tenure? Categorizing with CASE.
+
 SELECT company_name, avg_employee_tenure,
 CASE 
 WHEN avg_employee_tenure >= 7 THEN "Tier 1 - High Retention"
@@ -92,7 +96,8 @@ FROM fortune_companies
 ORDER BY avg_employee_tenure DESC;
 
 
--- Which industries offer an average of more than 15 paid time off days, and how many companies are in each of those industries? HAVING with aggregate functions
+-- Which industries offer an average of more than 15 paid time off days, and how many companies are in each of those industries? HAVING with aggregate functions.
+
 SELECT industry,
 COUNT(company_name) AS number_of_companies,
 ROUND (AVG(paid_time_off_days)) AS average_time_off_days 
@@ -103,6 +108,7 @@ ORDER BY average_time_off_days DESC;
 
 
 --Which industries have an average employee tenure greater than 5 years? Using GROUP BY, AVG(), and HAVING.
+
 SELECT industry, 
 ROUND(AVG(avg_employee_tenure), 1) AS avg_industry_tenure
 FROM fortune_companies
@@ -112,6 +118,7 @@ ORDER BY avg_industry_tenure DESC;
 
 
 -- Which companies offer maternity leave of at least 12 weeks or at least 25 paid time off days? Using WHERE with OR.
+
 SELECT company_name, paid_time_off_days, maternity_leave_weeks
 FROM fortune_companies
 WHERE maternity_leave_weeks >=12 
@@ -119,6 +126,7 @@ OR paid_time_off_days >= 18;
 
 
 -- Which industries have more than 1,000 employees across companies that offer healthcare benefits? Using WHERE, GROUP BY, SUM(), and HAVING.
+
 SELECT industry, SUM(employees) AS sum_of_industry_employees
 FROM fortune_companies
 WHERE healthcare_benefits = 1
