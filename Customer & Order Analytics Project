@@ -86,8 +86,18 @@ FebSales.Product,
 SUM (FebSales.Quantity)
 FROM BIT_DB.FebSales
 WHERE FebSales.Product LIKE '%headphone%'
-AND length(orderid) = 6
-AND orderid != 'Order ID'
+AND length(FebSales.orderID) = 6
+AND FebSales.orderID != 'Order ID'
 GROUP BY FebSales.Product;
+
+-- What was the average amount spent per account in February?
+
+SELECT 
+SUM(FebSales.price*FebSales.Quantity)/ COUNT(customers.acctnum) AS averageAmountSpent
+FROM BIT_DB.customers
+INNER JOIN BIT_DB.FebSales
+ON FebSales.orderID = customers.order_id
+WHERE length(customers.order_id) = 6
+AND customers.order_id != 'Order ID';
 
 
