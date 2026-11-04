@@ -93,11 +93,57 @@ GROUP BY FebSales.Product;
 -- What was the average amount spent per account in February?
 
 SELECT 
-SUM(FebSales.price*FebSales.Quantity)/ COUNT(customers.acctnum) AS averageAmountSpent
+SUM(FebSales.price*FebSales.Quantity) / COUNT(customers.acctnum) AS averageAmountSpent
 FROM BIT_DB.customers
 INNER JOIN BIT_DB.FebSales
 ON FebSales.orderID = customers.order_id
 WHERE length(customers.order_id) = 6
 AND customers.order_id != 'Order ID';
 
+-- Find order ids from Georgia (GA) where the order has an average price greater than $1,000. Only find orders from dates beginning with ‘04/1’. Assume that the dates are stored in the MM/DD/YY HH:MM format.
 
+SELECT 
+AprSales.orderID,
+AprSales.Product
+FROM BIT_DB.AprSales
+WHERE length (AprSales.orderID) = 6
+AND AprSales.orderID != 'Order ID'
+AND AprSales.orderdate LIKE '04/1%'
+AND AprSales.location LIKE '%GA%'
+AND AprSales.price*AprSales.Quantity > 1000;
+
+-- You’ve been given the following results from the MaySales table. Can you reverse engineer a SQL query that returns these results? The result set will naturally only return 10 rows (i.e., you will not have to use LIMIT to get to 10 results).
+
+-- MaySales Results 
+-- location	orderID
+-- 818 Wilson St, Los Angeles, CA 90001	194305
+-- 2 Center St, Austin, TX 73301	194315
+-- 960 Park St, San Francisco, CA 94016	194325
+-- 53 Ridge St, Portland, OR 97035	194335
+-- 734 Hickory St, New York City, NY 10001	194345
+-- 196 Cherry St, Portland, OR 97035	194355
+-- 924 13th St, Los Angeles, CA 90001	194365
+-- 602 Washington St, New York City, NY 10001	194375
+-- 399 12th St, San Francisco, CA 94016	194385
+-- 434 Pine St, Seattle, WA 98101	194395
+
+SELECT
+MaySales.location,
+MaySales.orderID
+FROM BIT_DB.MaySales
+WHERE MaySales.orderID LIKE '1943_5'
+AND length(MaySales.orderID) = 6
+AND MaySales.orderID != 'Order ID';
+
+
+-- Which product brought in the most revenue in January and how much revenue did it bring in total?
+
+SELECT
+JanSales.Product,
+SUM(JanSales.price*JanSales.Quantity)
+FROM BIT_DB.JanSales
+WHERE JanSales.orderID != 'Order ID'
+AND length (JanSales.orderID) = 6
+GROUP BY JanSales.Product
+ORDER BY SUM(JanSales.price*JanSales.Quantity) DESC
+LIMIT 1;
