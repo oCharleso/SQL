@@ -125,7 +125,7 @@ INSERT INTO hotels VALUES
  ;
 
 
--- 1. List all the VIPs (last and first name) and who are presenting in panels. 
+-- List all the VIPs (last and first name) and who are presenting in panels. 
 
 SELECT 
 vips.last_name,
@@ -138,7 +138,7 @@ ON vips.event = events.event_id
 WHERE events.event_type = "Panel"
 ORDER BY vips.last_name;
 
--- 2. List the VIPs who RSVP'd to the welcome reception but NOT to the dinner.
+-- List the VIPs who RSVP'd to the welcome reception but NOT to the dinner.
 
 SELECT 
 vips.last_name,
@@ -150,7 +150,7 @@ AND reservations.dinner_rsvp = 0
 ORDER BY vips.last_name;
 
 
--- 3. For every VIP with a reservation, show their hotel and the event they are part of (if any), for those attending the dinner.
+-- For every VIP with a reservation, show their hotel and the event they are part of (if any), for those attending the dinner.
 
 SELECT 
 vips.last_name,
@@ -168,7 +168,7 @@ WHERE reservations.dinner_rsvp = 1
 ORDER BY vips.last_name;
 
 
--- 4. List the VIPs who have no reservation at any hotel yet.
+-- List the VIPs who have no reservation at any hotel yet.
 
 SELECT 
 vips.last_name,
@@ -181,7 +181,7 @@ FROM reservations)
 ORDER BY vips.last_name;
 
 
--- 5. Show each VIP alongside the VIP they provide feedback to.
+-- Show each VIP alongside the VIP they provide feedback to.
 
 SELECT 
 giver.last_name AS Giver_last_name,
@@ -195,7 +195,7 @@ ORDER BY giver.last_name;
 
 
 
--- 6. How many VIPs are staying at each hotel?
+-- How many VIPs are staying at each hotel?
 
 SELECT 
 COUNT (vips.member_id) AS Number_of_VIPs_staying_at_the_hotel,
@@ -210,7 +210,7 @@ ORDER BY hotels.hotel_name;
 
 
 
--- 7. Which events have no VIP assigned to them?
+-- Which events have no VIP assigned to them?
 
 SELECT 
 events.event_name
@@ -222,7 +222,7 @@ ORDER BY events.event_name ASC;
 
 
 
--- 8. List all VIPs (last and first name) and the events they are presenting at, including VIPs who are not presenting at an event.
+-- List all VIPs (last and first name) and the events they are presenting at, including VIPs who are not presenting at an event.
 
 SELECT 
 vips.last_name,
@@ -235,7 +235,7 @@ ORDER BY vips.last_name;
 
 
 
--- 9. List the first and last names of VIPs who have made hotel reservations, along with their hotel names.
+-- List the first and last names of VIPs who have made hotel reservations, along with their hotel names.
 
 SELECT
 vips.first_name,
@@ -250,7 +250,7 @@ WHERE hotels.hotel_id IS NOT null
 ORDER BY vips.first_name;
 
 
--- 10. List each VIP's name, event name, hotel name, and welcome RSVP status.
+-- List each VIP's name, event name, hotel name, and welcome RSVP status.
 
 SELECT 
 vips.last_name,
@@ -268,7 +268,7 @@ ON hotels.hotel_id = reservations.hotel
 ORDER BY vips.last_name;
 
 
--- 11. List VIPs who have been members since before the average membership year.
+-- List VIPs who have been members since before the average membership year.
 
 SELECT 
 vips.last_name,
@@ -282,7 +282,7 @@ FROM vips)
 ORDER BY vips.last_name;
 
 
--- 12. List pairs of VIPs who work for the same association, showing their names and association.
+-- List pairs of VIPs who work for the same association, showing their names and association.
 
 SELECT 
 first_vips.last_name AS First_VIP_last_name,
@@ -295,7 +295,7 @@ JOIN vips AS second_vips
 ON first_vips.association = second_vips.association
 AND first_vips.member_id < second_vips.member_id;
 
--- 13. For each association type, how many VIPs have a reservation, and how many of them are attending the dinner?
+-- For each association type, how many VIPs have a reservation, and how many of them are attending the dinner?
 
 SELECT 
 vips.assoc_type,
@@ -308,7 +308,7 @@ WHERE reservations.hotel IS NOT null
 GROUP BY (vips.assoc_type);
 
 
--- 14. List the number of VIPs in each association.
+-- List the number of VIPs in each association.
 SELECT
 COUNT (vips.member_ID) AS Number_of_VIPs,
 vips.association
@@ -316,7 +316,7 @@ FROM vips
 GROUP BY vips.association;
 
 
--- 15. List all VIPs and their associated hotel reservations, including VIPs who may not have made a reservation.
+-- List all VIPs and their associated hotel reservations, including VIPs who may not have made a reservation.
 
 SELECT 
 vips.member_id,
@@ -328,7 +328,7 @@ LEFT JOIN reservations
 ON vips.member_id = reservations.member_id;
 
 
--- 16. Find the names of VIPs who have RSVP’d for the welcome event.
+-- Find the names of VIPs who have RSVP’d for the welcome event.
 
 SELECT
 vips.last_name,
@@ -341,7 +341,7 @@ WHERE reservations.welcome_rsvp = 1
 ORDER BY vips.last_name;
 
 
--- 17. Retrieve event names, attendee names, and their hotel names.
+-- Retrieve event names, attendee names, and their hotel names.
 
 SELECT 
 events.event_name,
@@ -356,7 +356,7 @@ ON reservations.member_id = vips.member_id
 LEFT JOIN hotels
 ON hotels.hotel_id = reservations.hotel;
 
--- 18. Find VIPs staying at the hotel with the most reservations.
+-- Find VIPs staying at the hotel with the most reservations.
 
 SELECT
 vips.last_name,
@@ -375,7 +375,7 @@ GROUP BY reservations.hotel
 ORDER BY COUNT (reservations.hotel) DESC
 LIMIT 1);
 
--- 19. Get a list of all government-affiliated VIPs who have RSVP’d for dinner.
+-- Get a list of all government-affiliated VIPs who have RSVP’d for dinner.
 
 SELECT 
 vips.last_name,
@@ -390,7 +390,7 @@ AND reservations.dinner_rsvp = 1;
 
 
 
--- 20. Find the number of VIPs attending each event, ordered by event attendance.
+-- Find the number of VIPs attending each event, ordered by event attendance.
 
 SELECT 
 events.event_id,
