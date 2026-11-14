@@ -173,3 +173,56 @@ WHERE invoices.InvoiceDate LIKE '2009%'
 GROUP BY employees.EmployeeId
 ORDER BY TotalSales DESC
 LIMIT 1;
+
+
+-- Who reports to whom? Show each employee’s full name alongside their manager’s full name.
+
+SELECT
+employees.FirstName AS employee_FirstName,
+employees.LastName AS employee_LastName,
+managers.FirstName AS managers_FirstName,
+managers.LastName AS managers_LastName
+FROM chinook.employees AS employees
+LEFT JOIN chinook.employees AS managers
+ON employees.ReportsTo = managers.EmployeeId;
+
+
+-- Which 5 artists generated the most revenue? Show the artist name and total dollars earned from track sales, highest first.
+
+SELECT
+artists.Name AS ArtistName, 
+SUM(invoice_items.Quantity)*invoice_items.UnitPrice AS revenue
+FROM chinook.invoice_items
+LEFT JOIN chinook.tracks
+ON tracks.TrackId = invoice_items.TrackId
+LEFT JOIN chinook.albums
+ON albums.AlbumId = tracks.AlbumId
+LEFT JOIN chinook.artists
+ON artists.ArtistId = albums.ArtistId
+GROUP BY artists.ArtistId
+ORDER BY revenue DESC
+LIMIT 5;
+
+
+-- Which customers have spent more than $45 in total? Show the customer’s full name and their total spend, sorted from highest to lowest.
+
+SELECT 
+customers.FirstName,
+customers.LastName,
+SUM(invoices.Total) AS TotalSpend
+FROM chinook.invoices
+LEFT JOIN chinook.customers
+ON invoices.CustomerId = customers.CustomerId
+GROUP BY invoices.CustomerId
+HAVING TotalSpend > 45
+ORDER BY TotalSpend DESC;
+
+
+-- Which tracks have never been purchased?
+
+SELECT 
+tracks.Name AS TrackName
+FROM chinook.tracks
+LEFT JOIN chinook.invoice_items
+ON tracks.TrackId = invoice_items.TrackId
+WHERE invoice_items.InvoiceLineId IS NULL ;
