@@ -138,6 +138,7 @@ ON vips.event = events.event_id
 WHERE events.event_type = "Panel"
 ORDER BY vips.last_name;
 
+
 -- List the VIPs who RSVP'd to the welcome reception but NOT to the dinner.
 
 SELECT 
@@ -194,7 +195,6 @@ ON giver.provides_feedback_to = receiver.member_id
 ORDER BY giver.last_name;
 
 
-
 -- How many VIPs are staying at each hotel?
 
 SELECT 
@@ -209,7 +209,6 @@ GROUP BY hotels.hotel_name
 ORDER BY hotels.hotel_name;
 
 
-
 -- Which events have no VIP assigned to them?
 
 SELECT 
@@ -219,7 +218,6 @@ LEFT JOIN vips
 ON vips.event = events.event_id
 WHERE member_ID IS null
 ORDER BY events.event_name ASC;
-
 
 
 -- List all VIPs (last and first name) and the events they are presenting at, including VIPs who are not presenting at an event.
@@ -232,7 +230,6 @@ FROM vips
 LEFT JOIN events
 ON vips.event = events.event_id
 ORDER BY vips.last_name;
-
 
 
 -- List the first and last names of VIPs who have made hotel reservations, along with their hotel names.
@@ -295,6 +292,7 @@ JOIN vips AS second_vips
 ON first_vips.association = second_vips.association
 AND first_vips.member_id < second_vips.member_id;
 
+
 -- For each association type, how many VIPs have a reservation, and how many of them are attending the dinner?
 
 SELECT 
@@ -309,6 +307,7 @@ GROUP BY (vips.assoc_type);
 
 
 -- List the number of VIPs in each association.
+
 SELECT
 COUNT (vips.member_ID) AS Number_of_VIPs,
 vips.association
@@ -356,6 +355,7 @@ ON reservations.member_id = vips.member_id
 LEFT JOIN hotels
 ON hotels.hotel_id = reservations.hotel;
 
+
 -- Find VIPs staying at the hotel with the most reservations.
 
 SELECT
@@ -375,6 +375,7 @@ GROUP BY reservations.hotel
 ORDER BY COUNT (reservations.hotel) DESC
 LIMIT 1);
 
+
 -- Get a list of all government-affiliated VIPs who have RSVP’d for dinner.
 
 SELECT 
@@ -387,7 +388,6 @@ LEFT JOIN reservations
 ON vips.member_id = reservations.member_id
 WHERE vips.assoc_type = "government" 
 AND reservations.dinner_rsvp = 1;
-
 
 
 -- Find the number of VIPs attending each event, ordered by event attendance.
