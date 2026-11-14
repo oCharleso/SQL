@@ -52,7 +52,7 @@ ORDER BY Spotifydata.popularity DESC
 LIMIT 10;
 
 
---  What artist released the longest song?
+-- What artist released the longest song?
 
 SELECT 
 Spotifydata.artist_name,
@@ -73,7 +73,7 @@ GROUP BY Spotifydata.artist_name
 ORDER BY numberOfSongs DESC;
 
 
- --  What's the average danceability for the 10 most popular songs?
+ -- What's the average danceability for the 10 most popular songs?
 
 SELECT
 AVG(Spotifydata.popularity)
