@@ -107,7 +107,7 @@ HAVING AVG(paid_time_off_days) > 15
 ORDER BY average_time_off_days DESC;
 
 
---Which industries have an average employee tenure greater than 5 years? Using GROUP BY, AVG(), and HAVING.
+-- Which industries have an average employee tenure greater than 5 years? Using GROUP BY, AVG(), and HAVING.
 
 SELECT industry, 
 ROUND(AVG(avg_employee_tenure), 1) AS avg_industry_tenure
