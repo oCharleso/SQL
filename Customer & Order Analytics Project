@@ -147,3 +147,28 @@ AND length (JanSales.orderID) = 6
 GROUP BY JanSales.Product
 ORDER BY SUM(JanSales.price*JanSales.Quantity) DESC
 LIMIT 1;
+
+
+-- The account numbers, the count of order IDs, product, quantity, price, order date, and location for all orders that were placed in February.
+
+SELECT 
+customers.acctnum AS AccountNumber,
+COUNT (FebSales.orderID) AS NumberOfOrders_Feb,
+FebSales.Product,
+FebSales.Quantity,
+FebSales.price,
+FebSales.orderdate,
+FebSales.location
+FROM BIT_DB.FebSales
+LEFT JOIN BIT_DB.customers
+ON FebSales.orderID = customers.order_id
+GROUP BY 
+customers.acctnum,
+FebSales.Product,
+FebSales.price,
+Febsales.Quantity,
+FebSales.orderdate,
+FebSales.location
+HAVING customers.acctnum IS NOT NULL
+AND length (customers.order_id) = 6
+AND customers.order_id != 'Order ID';
